@@ -18,3 +18,23 @@ class Solution:
                 hash_map[j * i] = True
                 j += 1
         return len(prime_list)
+    
+# A faster solution:
+# Note that it is sufficient to mark the numbers
+# starting from j^2 as all the smaller multiples
+# of p will have already been marked at that point.
+
+class Solution:
+    def countPrimes(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n < 3: return 0
+        isprime = [True] * n
+        isprime[:2] = [False, False]
+            
+        for j in range(2, int(n ** 0.5)+1):
+            if not isprime[j]: continue
+            isprime[j * j:n:j] = [False] * len(isprime[j * j:n:j])
+        return sum(isprime)
